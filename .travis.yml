@@ -1,0 +1,17 @@
+language: python
+sudo: false
+os:
+  - linux
+
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+
+install:
+  - pip install -r requirements/dev.txt
+  - pip install -r requirements/base.txt
+
+script:
+  - "PYTHONPATH=blog_api_media DJANGO_SETTINGS_MODULE=blog_api_media.settings django-admin test blog"
