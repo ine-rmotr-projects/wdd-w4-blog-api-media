@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from blog.models import User, Entry, Blog
-from blog.permissions import IsOwnerOrReadOnly
 from blog.serializers import UserSerializer, EntrySerializer, BlogSerializer
 
 
@@ -73,7 +72,6 @@ class EntryViewSet(mixins.RetrieveModelMixin,
     filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('headline',)
     ordering_fields = ('id',)
-    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class StatusView(APIView):

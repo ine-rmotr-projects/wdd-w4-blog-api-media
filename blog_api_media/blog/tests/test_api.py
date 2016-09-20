@@ -39,19 +39,13 @@ class EntryTestCase(APITestCase):
 
     def test_version(self):
         """Should return API version when GETing /status endpoint"""
-        params = {
-            'accesskey': self.user.accesskey
-        }
-        response = self.client.get('/api/v1/status', params)
+        response = self.client.get('/api/v1/status')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json(), {'version': 'v1'})
 
     def test_format_xml(self):
         """Should return XML response when format=xml param is given"""
-        params = {
-            'accesskey': self.user.accesskey,
-            'format': 'xml'
-        }
+        params = {'format': 'xml'}
         response = self.client.get('/api/v1/entries', params)
         xml_content = response.content.decode('utf-8')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -94,10 +88,7 @@ class EntryTestCase(APITestCase):
                 }
             ]
         }
-        params = {
-            'accesskey': self.user.accesskey,
-            'format': 'json'
-        }
+        params = {'format': 'json'}
         response = self.client.get('/api/v1/entries', params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.accepted_media_type, 'application/json')
@@ -105,20 +96,16 @@ class EntryTestCase(APITestCase):
 
     def test_format_json_default(self):
         """Should return JSON response by default when no format param is given"""
-        params = {
-            'accesskey': self.user.accesskey
-        }
-        response = self.client.get('/api/v1/entries', params)
+        response = self.client.get('/api/v1/entries')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.accepted_media_type, 'application/json')
 
     def test_throttling(self):
         """Should allow up to 50 request per minute for authenticated user"""
-        params = {'accesskey': self.user.accesskey}
         for i in range(50):
-            response = self.client.get('/api/v1/entries', params)
+            response = self.client.get('/api/v1/entries')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-        response = self.client.get('/api/v1/entries', params)
+        response = self.client.get('/api/v1/entries')
         self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
         self.assertTrue('Request was throttled.' in response.json()['detail'])
 
@@ -127,7 +114,6 @@ class EntryTestCase(APITestCase):
         self.assertEqual(Entry.objects.count(), 2)
         filepath = os.path.join(settings.BASE_DIR,
                                 'blog/tests/fixtures/python-logo.png')
-        headers = {'HTTP_X_SECRET_KEY': self.user.secretkey}
         with open(filepath, 'rb') as image_file:
             payload = {
                 'blog': 'http://testserver/api/v1/blogs/1',
@@ -139,8 +125,7 @@ class EntryTestCase(APITestCase):
                 'image': image_file
             }
             response = self.client.post(
-                '/api/v1/entries?accesskey={}'.format(
-                    self.user.accesskey), payload, format='multipart', **headers)
+                '/api/v1/entries', payload, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Entry.objects.count(), 3)
         entry = Entry.objects.get(headline='New entry')
