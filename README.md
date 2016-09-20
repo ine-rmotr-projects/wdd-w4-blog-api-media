@@ -12,7 +12,7 @@ The API version must be specified in the URL like this: `/api/v1/`. You must mak
 
 In order to test that the API versioning is actually working, we created a pretty simple `StatusView` that only returns `{"version": "v1"}`.
 
-![version](http://i.imgur.com/WRl0QLn.png)
+![version](http://i.imgur.com/D7wJ5Cq.png)
 
 ## Multiple formatting
 
@@ -20,7 +20,7 @@ In our previous API, we only supported `JSON` response format. There was no way 
 
 By default, the API should always return `JSON` responses. But, if we send a custom `?format=xml` argument, the same output must be returned using `XML` formatting. The `?format=json` argument should work as well, in case we want to explicitly select `JSON` as output.
 
-![xml](http://i.imgur.com/O6UNxTX.png)
+![xml](http://i.imgur.com/nVeUXO6.png)
 
 ## Throttling
 
@@ -28,7 +28,7 @@ For security reasons, it's always recommended to avoid a single user being able 
 
 You will need to configure a rule in your API, to limit a maximal of `50 requests per minute` for the same user.
 
-![throttling](http://i.imgur.com/RSG1ULE.png)
+![throttling](http://i.imgur.com/iK7QXRT.png)
 
 ## Entry images
 
@@ -36,4 +36,4 @@ Finally, we will do a quick update to our `Entry` model adding a new `image` fie
 
 As a small hint, when you read the tests note that the `format="multipart"` is used when POSTing the `Entry` data.
 
-![image](http://i.imgur.com/1zgoUSZ.png)
+![image](http://i.imgur.com/JPPXMv1.png)
