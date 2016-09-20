@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+*.sqlite3
+.~c9*
+blog_api_media/blog/media/

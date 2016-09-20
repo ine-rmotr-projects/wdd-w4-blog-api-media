@@ -1,0 +1,2 @@
+ipdb==0.10.1
+factory-boy==2.7.0
